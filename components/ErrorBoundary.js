@@ -1,51 +1,40 @@
 import React from 'react';
 import CustomErrorPage from './CustomErrorPage';
 
-export default class ErrorBoundary extends React.Component {
+class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      hasError: false,
-      error: null,
-    };
-
-    this.clearError = this.clearError.bind(this);
+    // Define a state variable to track whether is an error or not
+    this.state = { hasError: false, error: null };
   }
 
   static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI
+
     return { hasError: true, error };
   }
 
-  componentDidCatch(error, errorInfo) {}
-
-  clearError() {
-    this.setState({
-      hasError: false,
-      error: null,
-    });
+  componentDidCatch(error, errorInfo) {
+    // You can use your own error logging service here
+    console.log({ error, errorInfo });
   }
 
   render() {
-    const {
-      state: { hasError, error },
-      props: { children },
-      clearError,
-    } = this;
-
-    if (hasError) {
-      // return React.createElement(
-      //     errorPage,
-      //     {
-      //         header: 'Unhandled Application Error',
-      //         message: error.message,
-      //         onClear: clearError,
-      //     },
-      //     null
-      // )
-      return <CustomErrorPage message={error.message} />;
+    // Check if the error is thrown
+    if (this.state.hasError) {
+      // render any custom fallback UI
+      return (
+        <CustomErrorPage
+          error={this.state.error}
+          clearError={() => this.setState({ hasError: false, error: null })}
+        />
+      );
     }
 
-    return children;
+    // Return children components in case of no error
+    return this.props.children;
   }
 }
+
+export default ErrorBoundary;
