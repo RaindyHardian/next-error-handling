@@ -1,5 +1,6 @@
 import React from 'react';
 import CustomErrorPage from './CustomErrorPage';
+import ErrorModal from './ErrorModal';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -33,7 +34,16 @@ class ErrorBoundary extends React.Component {
     }
 
     // Return children components in case of no error
-    return this.props.children;
+    return (
+      <>
+        {this.props.children}
+        {/* <ErrorModal
+          onClose={() => this.setState({ hasError: false, error: null })}
+          isOpen={this.state.hasError}
+          errors={[this.state.error]}
+        /> */}
+      </>
+    );
   }
 }
 
