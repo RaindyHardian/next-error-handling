@@ -5,7 +5,7 @@ import ErrorBoundary from '../ErrorBoundary';
 
 const data = {};
 
-const Home = () => {
+const HomeComponent = () => {
   const [simulateError, setSimulateError] = useState(false);
 
   const onSimulateError = () => {
@@ -37,4 +37,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomeComponent;
