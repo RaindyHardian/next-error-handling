@@ -21,9 +21,21 @@ class ErrorBoundary extends React.Component {
   }
 
   render() {
+    const {
+      props: { CustomFallbackUI },
+    } = this;
+
     // Check if the error is thrown
     if (this.state.hasError) {
       // render any custom fallback UI
+      if (CustomFallbackUI)
+        return (
+          <CustomFallbackUI
+            error={this.state.error}
+            clearError={() => this.setState({ hasError: false, error: null })}
+          />
+        );
+
       return (
         <CustomErrorPage
           error={this.state.error}
